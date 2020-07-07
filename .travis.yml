@@ -6,4 +6,16 @@ before_install:
   - docker build -t deepakatreya/docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true deepakatreya/docker-react npm run test 
+  - docker run -e CI=true deepakatreya/docker-react npm run test
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-1"
+  app: "Docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-west-1-514289468507"
+  bucket_path: "Docker-react"
+  on:
+    branch:master
+    access_key_ID: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: "$AWS_SECRET_KEY"
